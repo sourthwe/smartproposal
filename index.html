@@ -3,46 +3,667 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartProposal — AI Proposal Generator</title>
+<title>Calm Paw — Help Your Anxious Dog Feel Safe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --teal: #2A9D8F;
+    --teal-dark: #1B6B62;
+    --teal-light: #E8F7F5;
+    --teal-mid: #A8DDD8;
+    --warm: #F9F6F0;
+    --ink: #1A1A2E;
+    --ink-soft: #4A4A5A;
+    --gold: #E9C46A;
+    --coral: #E76F51;
+    --white: #FFFFFF;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0D0D0D; color: #F5F5F5; font-family: Georgia, serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-  .container { max-width: 600px; padding: 40px 20px; text-align: center; }
-  .logo { background: #1a1a2e; width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; font-size: 28px; font-weight: bold; color: #2563EB; }
-  h1 { font-size: 36px; margin-bottom: 10px; }
-  .subtitle { color: #6B7280; font-size: 16px; margin-bottom: 40px; }
-  .card { background: #161616; border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: left; }
-  .feature { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-size: 15px; }
-  .check { color: #16a34a; font-size: 18px; }
-  .btn-download { display: block; background: #2563EB; color: white; padding: 18px 40px; border-radius: 14px; text-decoration: none; font-size: 18px; font-weight: bold; margin-bottom: 16px; transition: background 0.2s; }
-  .btn-download:hover { background: #1d4ed8; }
-  .btn-pro { display: block; background: #FF6B35; color: white; padding: 14px 40px; border-radius: 14px; text-decoration: none; font-size: 15px; font-weight: bold; margin-bottom: 20px; transition: background 0.2s; }
-  .btn-pro:hover { background: #E55A25; }
-  .note { color: #6B7280; font-size: 13px; margin-bottom: 6px; }
-  .warning { color: #f59e0b; font-size: 13px; margin-bottom: 6px; }
-  .badge { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-bottom: 20px; }
-  .by { color: #6B7280; font-size: 13px; margin-top: 30px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 18px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(249,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(42,157,143,0.15);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--teal-dark);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { font-size: 20px; }
+  .nav-cta {
+    background: var(--teal);
+    color: white; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    padding: 10px 24px; border-radius: 50px;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(42,157,143,0.3); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    gap: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(42,157,143,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--warm));
+    pointer-events: none;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--teal-light); color: var(--teal-dark);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 24px; border: 1px solid rgba(42,157,143,0.2);
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 900; line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+  .hero h1 em { color: var(--teal); font-style: normal; }
+  .hero-sub {
+    font-size: 18px; line-height: 1.7;
+    color: var(--ink-soft); font-weight: 400;
+    max-width: 480px; margin-bottom: 40px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 20px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--teal);
+    color: white; font-size: 17px; font-weight: 600;
+    padding: 16px 36px; border-radius: 50px;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 24px rgba(42,157,143,0.35);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(42,157,143,0.4); }
+  .price-tag {
+    display: flex; flex-direction: column;
+  }
+  .price-old { font-size: 14px; color: #999; text-decoration: line-through; }
+  .price-new { font-size: 24px; font-weight: 700; color: var(--teal-dark); }
+
+  /* HERO CARD */
+  .hero-card {
+    background: white;
+    border-radius: 28px;
+    padding: 48px 40px;
+    box-shadow: 0 20px 80px rgba(26,26,46,0.1), 0 4px 16px rgba(42,157,143,0.08);
+    position: relative;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .hero-card::before {
+    content: '🐾';
+    position: absolute; top: -20px; right: 32px;
+    font-size: 40px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  }
+  .bundle-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--teal-dark); margin-bottom: 6px;
+  }
+  .bundle-sub { font-size: 13px; color: var(--ink-soft); margin-bottom: 28px; }
+  .bundle-items { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .bundle-items li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--ink-soft); font-weight: 400;
+  }
+  .bundle-items li .check {
+    width: 22px; height: 22px; min-width: 22px;
+    background: var(--teal-light); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--teal); font-size: 12px; font-weight: 700;
+    margin-top: 1px;
+  }
+  .bundle-divider {
+    border: none; border-top: 1px solid rgba(42,157,143,0.15);
+    margin: 28px 0;
+  }
+  .bundle-pricing {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bundle-pricing .was { font-size: 13px; color: #aaa; }
+  .bundle-pricing .was s { font-size: 16px; }
+  .launch-pill {
+    background: var(--gold); color: #7A5C00;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 50px;
+    margin-bottom: 4px; display: inline-block;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── TRUST BAR ─── */
+  .trust-bar {
+    background: var(--teal);
+    padding: 20px 48px;
+    display: flex; justify-content: center; align-items: center;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .trust-item {
+    color: white; font-size: 14px; font-weight: 500;
+    display: flex; align-items: center; gap: 8px; opacity: 0.9;
+  }
+  .trust-item span { font-size: 18px; }
+
+  /* ─── PROBLEM SECTION ─── */
+  .section { padding: 96px 48px; }
+  .section-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700; line-height: 1.15;
+    color: var(--ink); margin-bottom: 20px;
+  }
+  .section-body {
+    font-size: 17px; line-height: 1.75;
+    color: var(--ink-soft); max-width: 640px;
+  }
+
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 28px; margin-top: 56px;
+  }
+  .problem-card {
+    background: white; border-radius: 20px;
+    padding: 32px 28px;
+    border: 1px solid rgba(42,157,143,0.1);
+    transition: all 0.3s;
+  }
+  .problem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(42,157,143,0.12); }
+  .problem-icon { font-size: 32px; margin-bottom: 16px; }
+  .problem-card h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .problem-card p { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
+
+  /* ─── WHAT'S INSIDE ─── */
+  .inside-section {
+    background: var(--ink);
+    padding: 96px 48px;
+  }
+  .inside-section .section-label { color: var(--teal-mid); }
+  .inside-section .section-title { color: white; }
+  .inside-section .section-body { color: rgba(255,255,255,0.6); }
+
+  .chapters-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 16px; margin-top: 56px;
+  }
+  .chapter-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 24px 28px;
+    display: flex; gap: 20px; align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .chapter-item:hover { background: rgba(42,157,143,0.1); border-color: rgba(42,157,143,0.3); }
+  .chapter-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 900; color: rgba(42,157,143,0.4);
+    line-height: 1; min-width: 40px;
+  }
+  .chapter-info h4 { font-size: 16px; font-weight: 600; color: white; margin-bottom: 4px; }
+  .chapter-info p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+  /* ─── BUNDLE ─── */
+  .bundle-section {
+    background: linear-gradient(135deg, var(--teal-light) 0%, var(--warm) 100%);
+    padding: 96px 48px;
+  }
+  .bundle-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+    margin-top: 56px;
+  }
+  .bundle-doc-list { display: flex; flex-direction: column; gap: 16px; }
+  .bundle-doc {
+    background: white;
+    border-radius: 16px; padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 2px 12px rgba(42,157,143,0.08);
+    border: 1px solid rgba(42,157,143,0.1);
+    transition: all 0.25s;
+  }
+  .bundle-doc:hover { transform: translateX(6px); box-shadow: 0 4px 20px rgba(42,157,143,0.15); }
+  .doc-icon {
+    width: 44px; height: 44px; background: var(--teal-light);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; min-width: 44px;
+  }
+  .doc-info h4 { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .doc-info p { font-size: 13px; color: var(--ink-soft); }
+
+  .pricing-box {
+    background: white;
+    border-radius: 28px; padding: 48px 40px;
+    box-shadow: 0 20px 80px rgba(26,26,46,0.1);
+    text-align: center;
+    position: sticky; top: 100px;
+  }
+  .pricing-box .launch { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .pricing-box h3 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .big-price { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 900; color: var(--teal-dark); line-height: 1; margin: 24px 0 8px; }
+  .big-price sup { font-size: 32px; vertical-align: top; margin-top: 14px; }
+  .pricing-box .was-price { font-size: 15px; color: #aaa; margin-bottom: 32px; }
+  .pricing-box .was-price s { color: #bbb; }
+  .btn-buy {
+    display: block; width: 100%;
+    background: var(--teal); color: white;
+    font-size: 17px; font-weight: 700;
+    padding: 18px 32px; border-radius: 50px;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.25s; margin-bottom: 16px;
+    box-shadow: 0 6px 24px rgba(42,157,143,0.35);
+  }
+  .btn-buy:hover { background: var(--teal-dark); transform: translateY(-2px); }
+  .guarantee { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .guarantee strong { color: var(--ink); }
+
+  /* ─── DISCLAIMER ─── */
+  .disclaimer-section {
+    background: #f0f0ea; padding: 48px;
+    border-top: 1px solid rgba(42,157,143,0.1);
+  }
+  .disclaimer-box {
+    max-width: 800px; margin: 0 auto; text-align: center;
+  }
+  .disclaimer-box h4 { font-size: 14px; font-weight: 700; color: var(--ink-soft); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .disclaimer-box p { font-size: 13px; line-height: 1.7; color: #888; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.5);
+    padding: 40px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; color: white; font-weight: 700; }
+  footer p { font-size: 13px; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 40px; }
+    .hero::before { display: none; }
+    .section { padding: 64px 24px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .chapters-grid { grid-template-columns: 1fr; }
+    .bundle-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .inside-section, .bundle-section { padding: 64px 24px; }
+    .trust-bar { padding: 16px 24px; gap: 24px; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+    .disclaimer-section { padding: 40px 24px; }
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="logo">SP</div>
-  <span class="badge">FREE DOWNLOAD</span>
-  <h1>SmartProposal</h1>
-  <p class="subtitle">AI-Powered Business Proposal Generator</p>
-  <div class="card">
-    <div class="feature"><span class="check">✅</span> Generate professional PDF proposals in 15 seconds</div>
-    <div class="feature"><span class="check">✅</span> Just enter client name, project type and budget</div>
-    <div class="feature"><span class="check">✅</span> 7-section professional proposal instantly</div>
-    <div class="feature"><span class="check">✅</span> 3 free proposals included</div>
-    <div class="feature"><span class="check">✅</span> Upgrade to Pro for unlimited proposals</div>
-    <div class="feature"><span class="check">✅</span> Windows desktop app — no browser needed</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>🐾</span> Calm Paw</div>
+  <a href="https://jacques7.gumroad.com/l/jikky" class="nav-cta">Get the Bundle →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">🐕 New — Digital Download</div>
+    <h1>Your dog deserves to feel <em>calm.</em></h1>
+    <p class="hero-sub">The complete Calm Paw Bundle — a practical, compassionate guide to understanding and reducing anxiety in dogs of any age, breed, or background.</p>
+    <div class="hero-actions">
+      <a href="https://jacques7.gumroad.com/l/jikky" class="btn-primary">Get Instant Access ↓</a>
+      <div class="price-tag">
+        <span class="price-old">Was $24.99</span>
+        <span class="price-new">$19.99 Launch Price</span>
+      </div>
+    </div>
   </div>
-  <a href="https://github.com/sourthwe/smartproposal/releases/download/v1.0/SmartProposal.exe" class="btn-download">⬇️ Download Free — Windows</a>
-  <a href="https://www.paypal.me/southwebstudios/19" class="btn-pro">⚡ Upgrade to Pro — $19 Unlimited</a>
-  <p class="note">Windows 10/11 • No installation required • Just double click and run</p>
-  <p class="warning">⚠️ If Windows shows a security warning, click "More info" then "Run anyway" — this is normal for new apps!</p>
-  <p class="by">by SouthWeb Studios</p>
+
+  <div class="hero-card">
+    <div class="launch-pill">✦ Calm Paw Bundle</div>
+    <div class="bundle-label">Everything you need, in one download.</div>
+    <div class="bundle-sub">6 resources. Instant PDF delivery.</div>
+    <ul class="bundle-items">
+      <li><div class="check">✓</div><div>The Calm Paw Guide (25-page complete guide)</div></li>
+      <li><div class="check">✓</div><div>Anxiety Trigger Tracker worksheet</div></li>
+      <li><div class="check">✓</div><div>Weekly Progress Tracker</div></li>
+      <li><div class="check">✓</div><div>Vet Visit Preparation Checklist</div></li>
+      <li><div class="check">✓</div><div>Thunderstorm Preparation Checklist</div></li>
+      <li><div class="check">✓</div><div>Daily Calm Routine Sheet</div></li>
+    </ul>
+    <hr class="bundle-divider">
+    <div class="bundle-pricing">
+      <div class="was"><span>Value: </span><s>$24.99</s></div>
+      <div>
+        <div style="font-size:32px;font-weight:900;color:var(--teal-dark);font-family:'Playfair Display',serif;">$19.99</div>
+        <div style="font-size:12px;color:var(--ink-soft);">Launch price — limited time</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span>📥</span> Instant digital download</div>
+  <div class="trust-item"><span>🖨️</span> Printable worksheets included</div>
+  <div class="trust-item"><span>🔒</span> Secure checkout</div>
+  <div class="trust-item"><span>💚</span> 30-day satisfaction guarantee</div>
 </div>
+
+<!-- PROBLEM SECTION -->
+<section class="section">
+  <div class="section-label">You're not alone</div>
+  <h2 class="section-title">Anxiety-related behaviours are one of the most common challenges dog owners face.</h2>
+  <p class="section-body">Most owners don't know what triggers their dog, how to read the signs early, or what to actually do in the moment. This guide changes that.</p>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">😰</div>
+      <h3>Destructive behaviour</h3>
+      <p>Chewing furniture, scratching doors, toilet accidents — these are anxiety symptoms, not bad behaviour. They have solutions.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🌩️</div>
+      <h3>Fear of storms & loud noises</h3>
+      <p>Fireworks, thunder, traffic — overstimulation sends many dogs into a panic spiral that owners feel helpless to stop.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🏠</div>
+      <h3>Separation distress</h3>
+      <p>Howling, pacing, or self-harm the moment you leave. Separation anxiety is one of the most common — and most fixable — dog issues.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="inside-section">
+  <div class="section-label">Inside the guide</div>
+  <h2 class="section-title" style="color:white;">25 pages of practical,<br>easy-to-follow guidance.</h2>
+  <p class="section-body">Written for real dog owners — not vets. Clear, actionable, and structured so you can find what you need fast.</p>
+
+  <div class="chapters-grid">
+    <div class="chapter-item">
+      <div class="chapter-num">01</div>
+      <div class="chapter-info">
+        <h4>What Is Dog Anxiety?</h4>
+        <p>Causes, triggers, the science behind fear responses</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">02</div>
+      <div class="chapter-info">
+        <h4>Signs & Symptoms</h4>
+        <p>How to spot anxiety early, before it escalates</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">03</div>
+      <div class="chapter-info">
+        <h4>Separation Anxiety</h4>
+        <p>Why it happens and a step-by-step management plan</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">04</div>
+      <div class="chapter-info">
+        <h4>Thunderstorm & Fireworks Anxiety</h4>
+        <p>Safe spaces, calming routines, and preparation tactics</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">05</div>
+      <div class="chapter-info">
+        <h4>Puppy & Rescue Dog Anxiety</h4>
+        <p>Special guidance for young dogs and rehomed animals</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">06</div>
+      <div class="chapter-info">
+        <h4>Travel & Vet Visit Anxiety</h4>
+        <p>Car rides, clinics, and new environments made easier</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">07</div>
+      <div class="chapter-info">
+        <h4>Common Owner Mistakes</h4>
+        <p>What accidentally makes anxiety worse (and how to stop)</p>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">08</div>
+      <div class="chapter-info">
+        <h4>Daily Calming Routine + FAQ</h4>
+        <p>A 5-minute daily framework and answers to common questions</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE SECTION -->
+<section class="bundle-section" id="bundle">
+  <div class="section-label">The full bundle</div>
+  <h2 class="section-title">Not just a guide.<br>A complete toolkit.</h2>
+  <p class="section-body">Everything you need to understand, track, and reduce your dog's anxiety — all in one download.</p>
+
+  <div class="bundle-grid">
+    <div class="bundle-doc-list">
+      <div class="bundle-doc">
+        <div class="doc-icon">📖</div>
+        <div class="doc-info">
+          <h4>The Calm Paw Guide</h4>
+          <p>25-page comprehensive guide covering all anxiety types</p>
+        </div>
+      </div>
+      <div class="bundle-doc">
+        <div class="doc-icon">📋</div>
+        <div class="doc-info">
+          <h4>Anxiety Trigger Tracker</h4>
+          <p>Log triggers, reactions, and severity to spot patterns</p>
+        </div>
+      </div>
+      <div class="bundle-doc">
+        <div class="doc-icon">📈</div>
+        <div class="doc-info">
+          <h4>Weekly Progress Tracker</h4>
+          <p>8-week monitoring sheet to measure real improvement</p>
+        </div>
+      </div>
+      <div class="bundle-doc">
+        <div class="doc-icon">🏥</div>
+        <div class="doc-info">
+          <h4>Vet Visit Preparation Checklist</h4>
+          <p>Printable pre-appointment checklist for anxious dogs</p>
+        </div>
+      </div>
+      <div class="bundle-doc">
+        <div class="doc-icon">⛈️</div>
+        <div class="doc-info">
+          <h4>Thunderstorm Prep Checklist</h4>
+          <p>What to prepare before storm season arrives</p>
+        </div>
+      </div>
+      <div class="bundle-doc">
+        <div class="doc-icon">🌿</div>
+        <div class="doc-info">
+          <h4>Daily Calm Routine Sheet</h4>
+          <p>Morning and evening routine template — printable and fillable</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-box">
+      <div class="launch">🚀 Launch Pricing</div>
+      <h3>Calm Paw Bundle</h3>
+      <div class="big-price"><sup>$</sup>19<span style="font-size:40px">.99</span></div>
+      <div class="was-price">Regular price: <s>$24.99</s></div>
+      <a href="https://jacques7.gumroad.com/l/jikky" class="btn-buy">Get Instant Access →</a>
+      <p class="guarantee">🔒 <strong>30-day satisfaction guarantee.</strong><br>Not happy with your purchase? Contact us within 30 days for a full refund.</p>
+      <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
+      <div style="font-size:13px;color:var(--ink-soft);line-height:1.6;">
+        ✔ Instant PDF download<br>
+        ✔ Print-friendly worksheets<br>
+        ✔ Works for all breeds & ages<br>
+        ✔ No subscription required
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARLY ADOPTER -->
+<section class="section" style="text-align:center; padding-bottom: 0;">
+  <div class="section-label">Just launched</div>
+  <h2 class="section-title" style="max-width:600px;margin:0 auto 20px;">Be one of our first customers.</h2>
+  <p class="section-body" style="margin:0 auto 40px;text-align:center;">Calm Paw is brand new. We're launching at $9.99 so our first customers can experience the full bundle, share honest feedback, and help us grow. Your support at this stage means everything.</p>
+  <a href="https://jacques7.gumroad.com/l/jikky" class="btn-primary" style="display:inline-flex;margin:0 auto;">Get the Bundle — $19.99 →</a>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-label">Questions</div>
+  <h2 class="section-title">Frequently asked questions.</h2>
+
+  <div style="max-width:720px;margin-top:48px;display:flex;flex-direction:column;gap:16px;">
+    <div style="background:white;border-radius:16px;padding:28px 32px;border:1px solid rgba(42,157,143,0.1);">
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">Is this a physical product?</div>
+      <div style="font-size:15px;color:var(--ink-soft);line-height:1.65;">No — this is a digital download. You'll receive PDF files instantly after purchase, directly to your email. No shipping, no waiting.</div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:28px 32px;border:1px solid rgba(42,157,143,0.1);">
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">When do I receive it?</div>
+      <div style="font-size:15px;color:var(--ink-soft);line-height:1.65;">Immediately after purchase. You'll get a download link in your inbox within seconds of completing checkout.</div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:28px 32px;border:1px solid rgba(42,157,143,0.1);">
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">Does it work for puppies?</div>
+      <div style="font-size:15px;color:var(--ink-soft);line-height:1.65;">Yes. The guide includes a dedicated section on puppy anxiety, covering early socialisation, separation anxiety in young dogs, and building confidence from the start.</div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:28px 32px;border:1px solid rgba(42,157,143,0.1);">
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">Does it work for rescue dogs?</div>
+      <div style="font-size:15px;color:var(--ink-soft);line-height:1.65;">Yes. Rescue dogs often come with unknown histories and heightened anxiety. The guide addresses this specifically, with guidance tailored to rehomed and traumatised dogs.</div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:28px 32px;border:1px solid rgba(42,157,143,0.1);">
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">Can I print the worksheets?</div>
+      <div style="font-size:15px;color:var(--ink-soft);line-height:1.65;">Absolutely. All trackers and checklists are designed to be printed and used on paper. Stick them on your fridge, in a notebook, or wherever works for you.</div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:28px 32px;border:1px solid rgba(42,157,143,0.1);">
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">What if I'm not satisfied?</div>
+      <div style="font-size:15px;color:var(--ink-soft);line-height:1.65;">If you're not happy with your purchase, contact us within 30 days and we'll issue a full refund. No questions asked.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section style="background:var(--teal-light);padding:80px 48px;">
+  <div style="max-width:640px;">
+    <div class="section-label">About Calm Paw</div>
+    <h2 class="section-title">Why we built this.</h2>
+    <p style="font-size:17px;line-height:1.8;color:var(--ink-soft);margin-top:20px;">Calm Paw was created to help dog owners better understand anxiety and build calmer routines for their pets through practical, easy-to-follow resources. We believe every dog deserves to feel safe — and every owner deserves clear guidance to make that happen.</p>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-section">
+  <div class="disclaimer-box">
+    <h4>⚕️ Educational Disclaimer</h4>
+    <p>The Calm Paw Guide and all accompanying materials are intended for educational and informational purposes only. They are not a substitute for professional veterinary advice, diagnosis, or treatment. If your dog is experiencing severe anxiety or behavioural issues, always consult a qualified veterinarian or certified animal behaviourist. Never disregard professional veterinary advice based on information in this guide.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🐾 Calm Paw</div>
+  <p>getcalmpaw.com — Helping anxious dogs feel safe, calm, and confident.</p>
+  <p>📧 <a href="mailto:southwebstudios@gmail.com" style="color:rgba(255,255,255,0.5);text-decoration:none;">southwebstudios@gmail.com</a></p>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;">
+    <a href="#privacy" style="color:rgba(255,255,255,0.4);font-size:13px;text-decoration:none;" onclick="document.getElementById('privacy').scrollIntoView({behavior:'smooth'});return false;">Privacy Policy</a>
+    <a href="#terms" style="color:rgba(255,255,255,0.4);font-size:13px;text-decoration:none;" onclick="document.getElementById('terms').scrollIntoView({behavior:'smooth'});return false;">Terms of Service</a>
+    <a href="mailto:southwebstudios@gmail.com" style="color:rgba(255,255,255,0.4);font-size:13px;text-decoration:none;">Contact</a>
+  </div>
+  <p>© 2026 Calm Paw. All rights reserved.</p>
+</footer>
+
+<!-- PRIVACY POLICY -->
+<section id="privacy" style="background:var(--warm);padding:80px 48px;border-top:1px solid rgba(42,157,143,0.1);">
+  <div style="max-width:720px;">
+    <div class="section-label">Legal</div>
+    <h2 class="section-title" style="font-size:36px;">Privacy Policy</h2>
+    <div style="font-size:15px;line-height:1.8;color:var(--ink-soft);margin-top:24px;display:flex;flex-direction:column;gap:16px;">
+      <p><strong style="color:var(--ink);">What we collect:</strong> When you purchase through Gumroad, your payment and contact details are handled directly by Gumroad. We only receive your email address to fulfil your order.</p>
+      <p><strong style="color:var(--ink);">How we use it:</strong> Your email is used solely to deliver your purchase and, if you opt in, to send occasional updates from Calm Paw. We do not sell or share your data with third parties.</p>
+      <p><strong style="color:var(--ink);">Cookies:</strong> This website does not use tracking cookies.</p>
+      <p><strong style="color:var(--ink);">Contact:</strong> For any privacy concerns, email <a href="mailto:southwebstudios@gmail.com" style="color:var(--teal);">southwebstudios@gmail.com</a>.</p>
+      <p style="font-size:13px;color:#aaa;">Last updated: June 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS OF SERVICE -->
+<section id="terms" style="background:#f0f0ea;padding:80px 48px;border-top:1px solid rgba(42,157,143,0.1);">
+  <div style="max-width:720px;">
+    <div class="section-label">Legal</div>
+    <h2 class="section-title" style="font-size:36px;">Terms of Service</h2>
+    <div style="font-size:15px;line-height:1.8;color:var(--ink-soft);margin-top:24px;display:flex;flex-direction:column;gap:16px;">
+      <p><strong style="color:var(--ink);">Digital product:</strong> The Calm Paw Bundle is a digital product delivered as PDF files. Due to the instant-access nature of digital downloads, all sales are final except where covered by our 30-day satisfaction guarantee.</p>
+      <p><strong style="color:var(--ink);">Refunds:</strong> If you are not satisfied with your purchase, contact us at <a href="mailto:southwebstudios@gmail.com" style="color:var(--teal);">southwebstudios@gmail.com</a> within 30 days of purchase for a full refund.</p>
+      <p><strong style="color:var(--ink);">Permitted use:</strong> This product is licensed for personal use only. You may not resell, redistribute, or reproduce the contents of this bundle without written permission.</p>
+      <p><strong style="color:var(--ink);">Disclaimer:</strong> The Calm Paw Bundle is for educational purposes only and is not a substitute for professional veterinary or behavioural advice. Always consult a qualified professional for your dog's specific needs.</p>
+      <p><strong style="color:var(--ink);">Governing law:</strong> These terms are governed by the laws of South Africa.</p>
+      <p style="font-size:13px;color:#aaa;">Last updated: June 2026</p>
+    </div>
+  </div>
+</section>
+
 </body>
 </html>
